@@ -16,7 +16,10 @@ export const reqLogin = (mobile, code) => request.post('/v1_0/authorizations', {
   mobile,
   code
 })
-
+/**
+ * 获取用户信息
+ * @returns
+ */
 export const getUserIfno = () => request({
   method: 'get',
   url: '/v1_0/user/profile'
