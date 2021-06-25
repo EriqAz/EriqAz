@@ -1,6 +1,6 @@
 <template>
   <div class="layout">
-    <van-nav-bar>
+    <van-nav-bar fixed>
       <template #left>
         <div class="logo" />
       </template>
