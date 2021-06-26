@@ -3,7 +3,7 @@ import request from '@/utils/request'
  * 获取用户频道
  * @returns
  */
-export const reqChannels = () => request.get('/v1_0/user/channels')
+export const reqUserChannels = () => request.get('/v1_0/channels')
 
 /**
  * 获取文章列表
@@ -18,4 +18,12 @@ export const reqArticle = (channel_id, timestamp) => request({
     channel_id,
     timestamp
   }
+})
+/**
+ * 获取所有频道
+ * @returns
+ */
+export const reqAllChannels = () => request({
+  method: 'get',
+  url: '/v1_0/user/channels'
 })

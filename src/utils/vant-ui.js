@@ -1,5 +1,7 @@
 import Vue from 'vue'
-import { Button, NavBar, Field, CellGroup, Toast, Overlay, Icon, Tabbar, TabbarItem, Tab, Tabs, Search, Cell, List, Grid, GridItem, Image as VanImage, PullRefresh, Lazyload } from 'vant'
+import { Button, NavBar, Field, CellGroup, Toast, Overlay, Icon, Tabbar, TabbarItem, Tab, Tabs, Search, Cell, List, Grid, GridItem, Image as VanImage, PullRefresh, Lazyload, Popup, ActionSheet } from 'vant'
+Vue.use(ActionSheet)
+Vue.use(Popup)
 Vue.use(Lazyload)
 Vue.use(PullRefresh)
 Vue.use(VanImage)

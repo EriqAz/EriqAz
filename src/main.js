@@ -6,7 +6,9 @@ import 'amfe-flexible'
 import '@/utils/vant-ui'
 import '@/styles/index.scss'
 import request from '@/utils/request'
+import eventBus from '@/utils/eventBus'
 Vue.prototype.$request = request
+Vue.prototype.$eventBus = eventBus
 import { formateTime } from '@/utils/formateTime'
 Vue.filter('formateTime', formateTime)
 Vue.config.productionTip = false

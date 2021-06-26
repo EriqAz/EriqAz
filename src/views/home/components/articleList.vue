@@ -19,6 +19,9 @@
                 <span>{{ item.aut_name }}</span>
                 <span>{{ item.comm_count }}评论</span>
                 <span>{{ item.pubdate | formateTime }}</span>
+                <div v-if="tokenInfo.token" class="edit" @click="showMore(item.art_id)">
+                  <van-icon name="cross" />
+                </div>
               </div>
             </template>
           </van-cell>
@@ -30,7 +33,7 @@
 
 <script>
 import { reqArticle } from '@/api/channels'
-
+import { mapState } from 'vuex'
 export default {
   props: {
     id: {
@@ -46,6 +49,16 @@ export default {
       timestamp: null,
       refreshing: false
     }
+  },
+  computed: {
+    ...mapState('user', ['tokenInfo'])
+  },
+  created() {
+    this.$eventBus.$on('disLike', (obj) => {
+      if (this.id === obj.channelsId) {
+        this.list = this.list.filter(item => item.art_id !== obj.articleId)
+      }
+    })
   },
   methods: {
     async onLoad() {
@@ -64,11 +77,13 @@ export default {
     },
     async onRefresh() {
       const res = await reqArticle(this.id, +new Date())
-      console.log(res)
       this.timestamp = res.data.pre_timestamp
       this.list = res.data.results
       this.$toast.success('刷新成功')
       this.refreshing = false
+    },
+    showMore(art_id) {
+      this.$emit('showMore', art_id)
     }
   }
 }
@@ -80,6 +95,16 @@ export default {
     span{
       margin-right: 10px;
     }
+  }
+  .doge {
+  width: 140px;
+  height: 72px;
+  margin-top: 8px;
+  border-radius: 4px;
+  }
+  .edit {
+    float: right;
+    margin-top: 4px;
   }
 }
 
