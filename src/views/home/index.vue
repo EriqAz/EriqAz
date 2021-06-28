@@ -13,9 +13,9 @@
       <van-icon name="wap-nav" />
     </div>
 
-    <van-action-sheet v-model="showChannelEdit" title="标题">
+    <van-action-sheet v-model="showChannelEdit" title="频道编辑">
 
-      <ChannelEdit />
+      <ChannelEdit :active="active" @currentChannel="currentChannel" @currentActive="currentActive" />
 
     </van-action-sheet>
 
@@ -47,11 +47,11 @@ export default {
     ...mapState('channels', ['channels'])
   },
   created() {
-    this.getAllChannel()
+    this.getChannels()
   },
 
   methods: {
-    ...mapActions('channels', ['getAllChannel']),
+    ...mapActions('channels', ['getChannels']),
     showMore(articleId) {
       this.show = true
       this.articleId = articleId
@@ -77,6 +77,13 @@ export default {
         channelsId: this.channels[this.active].id
       }
       this.$eventBus.$emit('disLike', obj)
+    },
+    currentChannel(index) {
+      this.showChannelEdit = false
+      this.active = index
+    },
+    currentActive(value) {
+      this.active = value
     }
   }
 }

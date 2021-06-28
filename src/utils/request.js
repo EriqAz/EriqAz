@@ -1,7 +1,7 @@
 import axios from 'axios'
 import store from '@/store'
 const request = axios.create({
-  baseURL: 'http://192.168.134.46:8000'
+  baseURL: 'http://192.168.134.51:8000'
 })
 
 // 请求拦截器

@@ -1,9 +1,9 @@
 import request from '@/utils/request'
 /**
- * 获取用户频道
+ * 获取所有频道
  * @returns
  */
-export const reqUserChannels = () => request.get('/v1_0/channels')
+export const reqAllChannels = () => request.get('/v1_0/channels')
 
 /**
  * 获取文章列表
@@ -20,10 +20,18 @@ export const reqArticle = (channel_id, timestamp) => request({
   }
 })
 /**
- * 获取所有频道
+ * 获取用户频道
  * @returns
  */
-export const reqAllChannels = () => request({
+export const reqChannels = () => request({
   method: 'get',
   url: '/v1_0/user/channels'
+})
+
+export const reqNewChannels = (channels) => request({
+  method: 'put',
+  url: '/v1_0/user/channels',
+  data: {
+    channels
+  }
 })
