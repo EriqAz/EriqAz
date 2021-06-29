@@ -24,3 +24,15 @@ export const getUserIfno = () => request({
   method: 'get',
   url: '/v1_0/user/profile'
 })
+export const getFollow = (id) => request({
+  method: 'post',
+  url: '/v1_0/user/followings',
+  data: {
+    target: id
+  }
+})
+
+export const getUnFollow = (id) => request({
+  method: 'delete',
+  url: '/v1_0/user/followings/' + id
+})

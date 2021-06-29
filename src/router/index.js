@@ -7,6 +7,8 @@ import Question from '@/views/question'
 import Video from '@/views/video'
 import User from '@/views/user'
 import Search from '@/views/search'
+import Result from '@/views/search/result.vue'
+import Detail from '@/views/search/detail.vue'
 Vue.use(VueRouter)
 
 const router = new VueRouter({
@@ -18,7 +20,9 @@ const router = new VueRouter({
       { path: 'video', component: Video },
       { path: 'user', component: User }
     ] },
-    { path: '/search', component: Search }
+    { path: '/search', component: Search },
+    { path: '/result', component: Result },
+    { path: '/detail/:id', component: Detail }
   ]
 })
 
