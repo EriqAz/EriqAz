@@ -30,7 +30,7 @@
         >{{ article.is_followed ? '取 消' : '+ 关注' }}</van-button>
       </div>
       <div class="content">
-        <!-- <div v-html="article.content" /> -->
+        <div v-html="article.content" />
       </div>
       <van-divider>END</van-divider>
       <div class="zan">

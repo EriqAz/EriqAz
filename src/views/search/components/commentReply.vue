@@ -1,6 +1,38 @@
 <template>
   <div class="article-comments">
-    <!-- 评论列表 -->
+    <!-- 导航栏 -->
+    <van-nav-bar :title="comment.reply_count + '条回复'">
+      <van-icon slot="left" name="cross" @click="closeReply" />
+    </van-nav-bar>
+    <!-- /导航栏 -->
+
+    <!-- 当前评论 -->
+    <van-cell title="当前评论">
+      <van-image
+        slot="icon"
+        round
+        width="30"
+        height="30"
+        style="margin-right: 10px;"
+        :src="comment.aut_photo"
+      />
+      <span slot="title" style="color: #466b9d;">{{ comment.aut_name }}</span>
+      <div slot="label">
+        <p style="color: #363636;">{{ comment.content }}</p>
+        <p>
+          <span style="margin-right: 10px;">{{ comment.pubdate | formateTime }}</span>
+          <van-button
+            size="mini"
+            type="default"
+          >回复{{ comment.reply_count }}</van-button>
+        </p>
+      </div>
+      <van-icon slot="right-icon" />
+    </van-cell>
+    <!-- /当前评论 -->
+    <van-divider>全部回复</van-divider>
+
+    <!-- 对当前评论 回复列表 -->
     <van-list
       v-model="loading"
       :finished="finished"
@@ -8,7 +40,7 @@
       @load="onLoad"
     >
       <van-cell
-        v-for="(item,index) in list"
+        v-for="(item, index) in list"
         :key="index"
       >
         <van-image
@@ -24,55 +56,40 @@
           <p style="color: #363636;">{{ item.content }}</p>
           <p>
             <span style="margin-right: 10px;">{{ item.pubdate | formateTime }}</span>
-            <van-button size="mini" type="default" @click="showReply(item)">回复</van-button>
           </p>
         </div>
-        <van-icon
-          slot="right-icon"
-          :color="item.is_liking ? 'red' : ''"
-          :name="item.is_liking ? 'like' : 'like-o'"
-          @click="addIsLike(item.com_id)"
-        />
       </van-cell>
     </van-list>
-    <!-- 评论列表 -->
+    <!-- 回复列表 -->
 
-    <!-- 发布评论 -->
+    <!-- 发布回复 -->
     <van-cell-group class="publish-wrap">
       <van-field
         v-model="content"
         clearable
-        placeholder="请输入评论内容"
+        placeholder="请输入回复内容"
       >
         <van-button
           slot="button"
           size="mini"
           type="info"
-          @click="addComment"
+          @click="addReply"
         >发布</van-button>
       </van-field>
     </van-cell-group>
-    <!-- /发布评论 -->
-    <van-popup v-model="show" round position="bottom" :style="{ height: '85%' }">
-      <CommentReply
-        v-if="show"
-        :comment="currentComment"
-        :article-id="articleId"
-        @closeReply="closeReply"
-      />
-    </van-popup>
+    <!-- /发布回复 -->
   </div>
-</template>
 
+</template>
 <script>
-import { getComment, reqAddComment, addIsLike, cancelLike } from '@/api/articles'
-import CommentReply from '@/views/search/components/commentReply.vue'
+import { reqCommentReply, addReply } from '@/api/articles'
 export default {
-  name: 'ArticleComment',
-  components: {
-    CommentReply
-  },
+  name: 'CommentReply',
   props: {
+    comment: {
+      type: Object,
+      required: true
+    },
     articleId: {
       type: String,
       required: true
@@ -83,53 +100,37 @@ export default {
       list: [], // 评论列表
       loading: false, // 上拉加载更多的 loading
       finished: false, // 是否加载结束
-      lastId: null,
-      content: '',
-      show: false,
-      currentComment: ''
+      offset: null,
+      content: ''
     }
   },
-
   methods: {
     async onLoad() {
-      const { data } = await getComment(this.articleId, this.lastId)
+      // 异步更新数据
+      const { data } = await reqCommentReply(this.comment.com_id, this.offset)
       this.list.push(...data.results)
-      this.lastId = data.last_id
+      this.offset = data.last_id
       this.loading = false
       if (data.results.length < 10) {
         this.finished = true
       }
     },
-    async addComment() {
+    async addReply() {
       if (this.content.trim() === '') {
         return
       }
-      const { data } = await reqAddComment(this.articleId, this.content)
+      const { data } = await addReply(this.comment.com_id, this.content, this.articleId)
       this.list.unshift(data.new_obj)
+      this.comment.reply_count++
       this.content = ''
     },
-    showReply(item) {
-      this.show = true
-      this.currentComment = item
-    },
     closeReply() {
-      this.show = false
-    },
-    async addIsLike(id) {
-      const com = this.list.filter(item => item.com_id === id)
-      if (com[0].is_liking) {
-        await cancelLike(id)
-        com[0].is_liking = false
-      } else {
-        await addIsLike(id)
-        com[0].is_liking = true
-      }
+      this.$emit('closeReply')
     }
   }
 }
 </script>
-
-<style scoped lang='scss'>
+<style lang="scss" scoped>
 // 发表评论的区域是固定在下端的
 .publish-wrap {
   position: fixed;
@@ -142,4 +143,3 @@ export default {
   margin-bottom: 45px;
 }
 </style>
-

@@ -89,3 +89,76 @@ export const getComment = (id, lastId, limit = 10) => request({
     limit
   }
 })
+
+/**
+ * 发表文章评论
+ * @param {*} id 文章id
+ * @param {*} content 回复内容
+ * @returns
+ */
+export const reqAddComment = (id, content) => request({
+  method: 'post',
+  url: '/v1_0/comments',
+  data: {
+    target: id,
+    content: content
+  }
+})
+
+/**
+ * 获取评论的回复
+ * @param {*} id 评论id
+ * @param {*} offset 最后一条回复id
+ * @param {*} limit 每页条数
+ * @returns
+ */
+export const reqCommentReply = (id, offset, limit = 10) => request({
+  method: 'get',
+  url: '/v1_0/comments',
+  params: {
+    type: 'c',
+    source: id,
+    offset,
+    limit
+  }
+})
+
+/**
+ * 添加回复
+ * @param {*} commentId 评论id
+ * @param {*} content 评论内容
+ * @param {*} id 文章id
+ * @returns
+ */
+export const addReply = (commentId, content, id) => request({
+  method: 'post',
+  url: '/v1_0/comments',
+  data: {
+    target: commentId,
+    content,
+    art_id: id
+  }
+})
+
+/**
+ * 评论点赞
+ * @param {*} id 评论id
+ * @returns
+ */
+export const addIsLike = (id) => request({
+  method: 'post',
+  url: '/v1_0/comment/likings',
+  data: {
+    target: id
+  }
+})
+
+/**
+ * 取消评论点赞
+ * @param {*} id 评论id
+ * @returns
+ */
+export const cancelLike = (id) => request({
+  method: 'delete',
+  url: `/v1_0/comment/likings/${id}`
+})
