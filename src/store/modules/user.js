@@ -1,4 +1,4 @@
-import { getToken, setToken } from '@/utils/storage'
+import { getToken, setToken, removeToken } from '@/utils/storage'
 
 const state = {
   tokenInfo: getToken() || {}
@@ -7,6 +7,10 @@ const mutations = {
   setTokenInfo(state, token) {
     state.tokenInfo = token
     setToken(token)
+  },
+  removeTokenInfo(state) {
+    state.tokenInfo = ''
+    removeToken()
   }
 }
 const actions = {}

@@ -1,5 +1,10 @@
 import Vue from 'vue'
-import { Button, NavBar, Field, CellGroup, Toast, Overlay, Icon, Tabbar, TabbarItem, Tab, Tabs, Search, Cell, List, Grid, GridItem, Image as VanImage, PullRefresh, Lazyload, Popup, ActionSheet, Loading, Divider } from 'vant'
+import { Button, NavBar, Field, CellGroup, Toast, Overlay, Icon, Tabbar, TabbarItem, Tab, Tabs, Search, Cell, List, Grid, GridItem, Image as VanImage, PullRefresh, Lazyload, Popup, ActionSheet, Loading, Divider, Tag, Row, Col, Dialog, DatetimePicker } from 'vant'
+Vue.use(DatetimePicker)
+Vue.use(Dialog)
+Vue.use(Tag)
+Vue.use(Row)
+Vue.use(Col)
 Vue.use(Divider)
 Vue.use(Loading)
 Vue.use(ActionSheet)

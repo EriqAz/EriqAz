@@ -65,7 +65,9 @@ export default {
         const res = await reqLogin(this.mobile, this.code)
         this.$store.commit('user/setTokenInfo', res.data)
         this.$toast.success('登录成功')
-        this.$router.push('/')
+        // this.$router.push('/')
+        const backto = this.$route.query.backto || '/'
+        this.$router.push(backto)
       } catch (e) {
         this.$toast.fail(e.response.data.message)
       }

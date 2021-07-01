@@ -96,12 +96,12 @@ export default {
     },
     async clickFollow(id) {
       if (this.article.is_followed === true) {
-        this.article.is_followed = false
         await getUnFollow(id)
+        this.article.is_followed = false
         this.$toast.success('取关成功')
       } else {
-        this.article.is_followed = true
         await getFollow(id)
+        this.article.is_followed = true
         this.$toast.success('关注成功')
       }
     },

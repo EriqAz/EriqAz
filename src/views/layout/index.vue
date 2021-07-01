@@ -1,6 +1,6 @@
 <template>
   <div class="layout">
-    <van-nav-bar fixed>
+    <van-nav-bar v-if="$route.path !== '/user'" fixed>
       <template #left>
         <div class="logo" />
       </template>

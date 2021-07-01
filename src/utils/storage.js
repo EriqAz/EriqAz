@@ -6,6 +6,9 @@ export const setToken = (token) => localStorage.setItem(tokenKey, JSON.stringify
 // 获取 token
 export const getToken = () => JSON.parse(localStorage.getItem(tokenKey))
 
+// 移除 token
+export const removeToken = () => localStorage.removeItem(tokenKey)
+
 // 存入历史记录
 export const setHistory = (value) => localStorage.setItem(history, JSON.stringify(value))
 
