@@ -3,7 +3,7 @@ import store from '@/store'
 import { reqRefreshToken } from '@/api/user'
 import router from '@/router'
 const request = axios.create({
-  baseURL: 'http://192.168.134.51:8000'
+  baseURL: 'http://192.168.134.31:8000'
 })
 
 // 请求拦截器

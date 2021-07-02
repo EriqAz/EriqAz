@@ -1,5 +1,5 @@
 <template>
-  <div class="articleList">
+  <div ref="refScroll" class="articleList" @scroll="scrollFn">
     <van-cell-group>
       <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
         <van-list
@@ -52,7 +52,8 @@ export default {
       loading: false,
       finished: false,
       timestamp: null,
-      refreshing: false
+      refreshing: false,
+      scrollTop: 0
     }
   },
   computed: {
@@ -64,6 +65,9 @@ export default {
         this.list = this.list.filter(item => item.art_id !== obj.articleId)
       }
     })
+  },
+  activated() {
+    this.$refs.refScroll.scrollTop = this.scrollTop
   },
   methods: {
     async onLoad() {
@@ -89,6 +93,9 @@ export default {
     },
     showMore(art_id) {
       this.$emit('showMore', art_id)
+    },
+    scrollFn(e) {
+      this.scrollTop = e.target.scrollTop
     }
   }
 }
@@ -96,6 +103,8 @@ export default {
 
 <style lang="scss" scoped>
 .articleList {
+  height: 100%;
+  overflow: auto;
   .meta {
     span{
       margin-right: 10px;

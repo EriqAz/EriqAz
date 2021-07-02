@@ -1,23 +1,24 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import store from '@/store'
-import Login from '@/views/login'
-import Layout from '@/views/layout'
-import Home from '@/views/home'
-import Question from '@/views/question'
-import Video from '@/views/video'
-import User from '@/views/user'
-import Search from '@/views/search'
-import Result from '@/views/search/result.vue'
-import Detail from '@/views/search/detail.vue'
-import Profile from '@/views/user/profile.vue'
 Vue.use(VueRouter)
+import store from '@/store'
+const Login = () => import('@/views/login')
+const Layout = () => import('@/views/layout')
+const Home = () => import('@/views/home')
+const Question = () => import('@/views/question')
+const Video = () => import('@/views/video')
+const User = () => import('@/views/user')
+const Search = () => import('@/views/search')
+const Result = () => import('@/views/search/result.vue')
+const Detail = () => import('@/views/search/detail.vue')
+const Profile = () => import('@/views/user/profile.vue')
+const Chat = () => import('@/views/user/chat.vue')
 
 const router = new VueRouter({
   routes: [
     { path: '/login', component: Login },
     { path: '/', component: Layout, children: [
-      { path: '', component: Home },
+      { path: '', component: Home, meta: { isKeepLive: true }},
       { path: 'question', component: Question },
       { path: 'video', component: Video },
       { path: 'user', component: User }
@@ -25,7 +26,8 @@ const router = new VueRouter({
     { path: '/search', component: Search },
     { path: '/result', component: Result },
     { path: '/detail/:id', component: Detail },
-    { path: '/profile', component: Profile }
+    { path: '/profile', component: Profile },
+    { path: '/chat', component: Chat }
   ]
 })
 const originalPush = VueRouter.prototype.push

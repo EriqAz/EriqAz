@@ -113,7 +113,7 @@ export default {
         // 每个面板的容器
         .van-tab__pane {
           height: 100%;
-          overflow: auto;
+
         }
       }
     }

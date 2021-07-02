@@ -80,3 +80,16 @@ export const userinfo = (obj) => request({
   url: '/v1_0/user/profile',
   data: obj
 })
+
+/**
+ * 更换头像
+ * @param {*} fd 图片
+ * @returns
+ */
+export const updatePhoto = (fd) => {
+  return request({
+    method: 'patch',
+    url: '/v1_0/user/photo',
+    data: fd
+  })
+}

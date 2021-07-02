@@ -4,8 +4,9 @@
     <van-nav-bar left-arrow title="编辑资料" @click-left="$router.back()" />
 
     <!-- 编辑区 -->
+    <input ref="iptFile" type="file" hidden @change="iptChange">
     <van-cell-group>
-      <van-cell is-link title="头像" center>
+      <van-cell is-link title="头像" center @click="$refs.iptFile.click()">
         <van-image
           slot="default"
           width="1.5rem"
@@ -48,7 +49,7 @@
 </template>
 
 <script>
-import { getUserIfno, userinfo } from '@/api/user'
+import { getUserIfno, updatePhoto, userinfo } from '@/api/user'
 import dayjs from 'dayjs'
 export default {
   name: 'UserProfile',
@@ -97,6 +98,24 @@ export default {
       await userinfo({ birthday })
       this.user.birthday = birthday
       this.showBirthday = false
+    },
+    async iptChange(e) {
+      try {
+        const img = e.target.files[0]
+        if (!img) return
+        this.$toast.loading({
+          message: '文件上传中...',
+          forbidClick: true,
+          overlay: true
+        })
+        const fd = new FormData()
+        fd.append('photo', img)
+        const { data: { photo }} = await updatePhoto(fd)
+        this.user.photo = photo
+        this.$toast.success('更新成功')
+      } catch {
+        this.$toast.fail('更新失败')
+      }
     }
   }
 }
